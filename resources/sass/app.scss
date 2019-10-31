@@ -1,0 +1,160 @@
+// Bootstrap
+@import 'bootstrap/bootstrap';
+
+body {
+    background-color: #f7f7f8;
+}
+
+#nav-main {
+    background: linear-gradient(rgb(8, 80, 41),#1f7749);
+}
+
+#nav-sub {
+    background: rgba(147, 173, 148, 0.3);    
+}
+
+.hot {
+    background: -webkit-linear-gradient(45deg,#fef6db, #FFFFFF,#FFFFFF);
+    background: linear-gradient(45deg,#fef6db,#FFFFFF,#FFFFFF);
+}
+
+.event-header {
+    background: #dbd6c7;
+}
+
+.event-day {
+    color:#1f7749;
+    font-weight: 600;
+}
+
+.dropdown-menu {
+    padding: 0;
+}
+.dropdown-item {
+    padding: 0.25rem 0.5em;
+}
+
+.nav-sport .nav-link:hover,
+.nav-sport .nav-link:focus,
+.nav-competition .nav-link:hover,
+.nav-competition .nav-link:focus {
+  color:black;
+}
+
+.nav-sport a.nav-link,
+.nav-competition a.nav-link  {
+    color: #555;
+}
+
+.nav-sport .nav-link.active {
+    color: #02934f;
+    font-weight: 900;
+}
+
+.nav-competition .nav-link.active {
+    color: #02934f;
+    font-weight: 900;
+    border-bottom: 2px solid green;
+}
+
+.nav-competition .nav-link {
+    padding: 0;
+}
+
+.nav-competition .nav-item {
+    padding: 0.5rem 1rem;
+}
+
+.refresh-bg {
+    position: fixed;
+    right: 1rem;
+    bottom: 4rem;
+    z-index: 30000;
+  }
+  
+  .refrsh-icon {
+    width: 40px;
+    height: 40px;
+    background: #02934f;
+    border-radius: 100%;
+    text-align: center;
+    color: white;
+    font-size: 1rem;
+    font-weight: lighter;
+    line-height: 2.5rem;
+    display: block;
+    cursor: pointer;
+  }
+  
+  .refrsh-icon:before {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .refrsh-icon:after {
+    content: " ";
+    display: block;
+    width: 48px;
+    height: 48px;
+    background: rgba(130, 177, 155, 0.28);
+    position: absolute;
+    left: -4px;
+    top: -4px;
+    z-index: -1;
+    border-radius: 100%;
+  }
+  
+  .refrsh-icon.loading {
+    -webkit-animation: spinner-border 0.75s linear infinite;
+            animation: spinner-border 0.75s linear infinite;
+  }
+  
+
+@media (min-width: 576px) {
+    .tools {
+        margin-left: auto !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .tools {
+        margin-left:0 !important;
+        margin-right: auto !important;
+    }
+    .tools .btn-light {
+        color: #212529;
+        background-color: transparent;
+        border-color: transparent;
+    }
+    .tools .btn-sm, .btn-group-sm > .btn {
+        padding: 0.1rem 0.2rem;
+        color: #6c757d !important
+    }
+}
+@media (max-width: 576px) {
+    
+    #nav-sub {
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        z-index: 1030;
+        background: linear-gradient(#ffffff,#cdcdcd);
+    }
+
+    .event-day {
+        color:#6c757d;
+        font-weight: 300;
+    }
+    
+    
+
+    .nav-sport {
+        padding-top: 0.5rem;
+    }
+    .nav-sport a.nav-link{
+        padding: 0.2rem 0.4rem;
+        color: #000;
+    }
+  }
+  
