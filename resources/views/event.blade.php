@@ -25,8 +25,8 @@
                 <span class="font-weight-bold">{{ $index->event->competition->name }}</span>
             </div>
             <div class="col-4 text-center">
-                <span class="text-danger" id="e-status" @if ($index->event->status == 'Playing') style="display:none" @endif>{{ __('home.' . mb_strtolower($index->event->status)) }}</span>
-                <span class="text-success" id="e-minute" @if ($index->event->status != 'Playing') style="display:none" @endif><span id="e-minute-time">{{ $index->event->minute }}</span><label class="m-0 e-glint">'</label></span>
+                <span class="text-danger" id="e-status" @if ($index->event->status_string == 'Playing') style="display:none" @endif>{{ __('home.' . mb_strtolower($index->event->status_string)) }}</span>
+                <span class="text-success" id="e-minute" @if ($index->event->status_string != 'Playing') style="display:none" @endif><span id="e-minute-time">{{ $index->event->minute }}</span><label class="m-0 e-glint">'</label></span>
             </div>
             <div class="col-4 text-right text-muted" id="e-time"></div>
         </div>
@@ -46,8 +46,8 @@
         <div class="row">
             <div class="col-12 text-center">
                 @foreach ($index->event->channels as $channel)
-                    <a href="{{ route('event', $index->id) }}?c={{ $channel->id }}" class="btn @if ($channel->id == $c) btn-success @else btn-outline-success @endif btn-sm d-none d-md-inline-block play-live"  @if ($channel->id == $c) data-src="{{ $channel->url }}" @endif><span class="oi oi-play-circle" title="play-circle" aria-hidden="true"></span>&nbsp;&nbsp;{{ __('home.live') }} {{ $loop->index + 1 }}</a>
-                    <a href="{{ route('event', $index->id) }}?c={{ $channel->id }}" class="btn @if ($channel->id == $c) btn-success @else btn-outline-success @endif btn-sm d-md-none play-live"  @if ($channel->id == $c) data-src="{{ $channel->url }}" @endif><span class="oi oi-play-circle" title="play-circle" aria-hidden="true"></span>&nbsp;&nbsp;{{ __('home.live') }} {{ $loop->index + 1 }}</a>
+                    <a href="{{ route('event', $index->id) }}?c={{ $channel->id }}" class="btn @if ($channel->id == $c) {{ $index->event->status_string == 'Playing' ? 'btn-success' : 'btn-secondary' }} @else {{ $index->event->status_string == 'Playing' ? 'btn-outline-success' : 'btn-outline-secondary' }} @endif btn-sm d-none d-md-inline-block play-live"  @if ($channel->id == $c) data-src="{{ $channel->url }}" @endif><span class="oi oi-play-circle" title="play-circle" aria-hidden="true"></span>&nbsp;&nbsp;{{ __('home.live') }} {{ $loop->index + 1 }}</a>
+                    <a href="{{ route('event', $index->id) }}?c={{ $channel->id }}" class="btn @if ($channel->id == $c) {{ $index->event->status_string == 'Playing' ? 'btn-success' : 'btn-secondary' }} @else {{ $index->event->status_string == 'Playing' ? 'btn-outline-success' : 'btn-outline-secondary' }} @endif btn-sm d-md-none play-live"  @if ($channel->id == $c) data-src="{{ $channel->url }}" @endif><span class="oi oi-play-circle" title="play-circle" aria-hidden="true"></span>&nbsp;&nbsp;{{ __('home.live') }} {{ $loop->index + 1 }}</a>
                 @endforeach
             </div>
         </div>
@@ -67,8 +67,8 @@
     </style>
     <script>
         var id = {{ $index->event->id }};
-        var status = '{{ $index->event->status }}';
-        var status_text = '{{ __('home.' . mb_strtolower($index->event->status)) }}';
+        var status = '{{ $index->event->status_string }}';
+        var status_text = '{{ __('home.' . mb_strtolower($index->event->status_string)) }}';
         var minute = '{{ $index->event->minute }}';
         var d = new Date('{{ $index->event->start_play->toJSON() }}');
         var homeScore = {{ ($index->event->home_score) ?: 0 }};

@@ -15,6 +15,10 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
+    'logo' => env('APP_LOGO'),
+
+    'logo_invert' => env('APP_LOGO_INVERT'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment

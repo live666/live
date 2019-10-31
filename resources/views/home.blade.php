@@ -18,7 +18,7 @@
                         </ul>
                     </div>
                     <div class="tools pt-md-2">
-                        <a class="navbar-brand d-md-none text-dark ml-1 mr-1" href="/"><span class="oi oi-aperture"></span></a>
+                        <a class="navbar-brand d-md-none text-dark ml-1 mr-1" href="/"><img src="{{ config('app.logo_invert') }}"  style="height:30px;"/></a>
                         <div class="btn-group">
                             <div class="dropdown ">
                                 <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -181,8 +181,8 @@
                     </div>
                     <div class="col-md-2 col-12 m-auto text-md-left">
                         [^[for channels]]
-                            <a href="{{ route('event', '') }}/[[:#parent.parent.data.id]]?c=[[:id]]" target="_blank" class="btn btn-outline-success btn-sm d-none d-md-inline-block"><span class="oi oi-play-circle" title="play-circle" aria-hidden="true"></span>&nbsp;&nbsp;{{ __('home.live') }} [^[:index+1]]</a>
-                            <a href="{{ route('event', '') }}/[[:#parent.parent.data.id]]?c=[[:id]]" target="_blank" class="btn btn-success btn-sm d-md-none"><span class="oi oi-play-circle" title="play-circle" aria-hidden="true"></span>&nbsp;&nbsp;{{ __('home.live') }} [^[:index+1]]</a>
+                            <a href="{{ route('event', '') }}/[[:#parent.parent.data.id]]?c=[[:id]]" target="_blank" class="btn [[if #parent.parent.data.status == 'Playing']] btn-outline-success [[else]] btn-outline-secondary [[/if]] btn-sm d-none d-md-inline-block"><span class="oi oi-play-circle" title="play-circle" aria-hidden="true"></span>&nbsp;&nbsp;{{ __('home.live') }} [^[:index+1]]</a>
+                            <a href="{{ route('event', '') }}/[[:#parent.parent.data.id]]?c=[[:id]]" target="_blank" class="btn [[if #parent.parent.data.status == 'Playing']] btn-success [[else]] btn-secondary [[/if]] btn-sm d-md-none"><span class="oi oi-play-circle" title="play-circle" aria-hidden="true"></span>&nbsp;&nbsp;{{ __('home.live') }} [^[:index+1]]</a>
                         [[/for]]
                     </div>
                 </div>

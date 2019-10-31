@@ -11,7 +11,7 @@
 <body>
     <header id="nav-main" class="navbar navbar-expand-lg navbar-dark d-none d-md-block">
         <div class="container py-1">
-            <a class="navbar-brand" href="/" style="font-size:1.3rem;"><span class="oi oi-aperture"></span>&nbsp;&nbsp;LIVE</a>
+            <a class="navbar-brand" href="/" style="font-size:1.3rem;"><img src="{{ config('app.logo') }}" /></a>
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item px-2">
                 <a class="nav-link" href="#"><span class="oi oi-data-transfer-download"></span>&nbsp;&nbsp;{{ __('home.app_download') }}</a>

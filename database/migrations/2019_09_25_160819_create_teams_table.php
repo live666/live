@@ -16,12 +16,10 @@ class CreateTeamsTable extends Migration
         Schema::create('teams', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('sport_id');
-            $table->bigInteger('sid');
-            $table->string('name');
+            $table->bigInteger('sid')->nullable();
+            $table->string('name')->nullable();
             $table->json('name_i18n')->nullable();
             $table->string('logo')->nullable();
-            
-            $table->unique(['sport_id', 'sid'], 'unique_sportid_sid');
         });
     }
 

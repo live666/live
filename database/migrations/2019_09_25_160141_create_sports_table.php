@@ -15,6 +15,7 @@ class CreateSportsTable extends Migration
     {
         Schema::create('sports', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('sid');
             $table->string('name')->unique();
             $table->json('name_i18n')->nullable();
         });

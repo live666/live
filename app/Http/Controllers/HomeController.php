@@ -17,6 +17,8 @@ class HomeController extends Controller
 {
     public function index()
     {
+        $homeSportsId = explode(',', Config::get('sport.home_sports_id'));
+        $homeCompetitionsId = explode(',', Config::get('sport.home_competitions_id'));
         $data = [];
         $locale = App::getLocale();
         $data['locales'] = Config::get('app.locales');
@@ -24,9 +26,9 @@ class HomeController extends Controller
         if (empty($data['locale'])) {
             $data['locale'] = 'en';
         }
-        $competitions = Competition::whereIn('sid', [3, 9])->orderBy('sid')->get();
+        $competitions = Competition::whereIn('id', $homeCompetitionsId)->orderBy('sid')->get();
         $data['competitions'] = $competitions;
-        $all = Competition::whereIn('sport_id', [1,2])
+        $all = Competition::whereIn('sport_id', [1])
                 ->whereNotNull('letter')
                 ->orderBy('letter')
                 ->orderBy('sid')
@@ -39,14 +41,14 @@ class HomeController extends Controller
             ];
         }
         $data['categories'] = $categories;
-        $sports = Sport::whereIn('name', ['Football', 'Basketball'])
+        $sports = Sport::whereIn('id', $homeSportsId)
                     ->orderBy('id')
                     ->get();
         $data['sports'] = $sports;
         $indexes = Index::with('event', 'event.competition', 'event.homeTeam', 'event.awayTeam', 'event.channels')
-                    ->whereIn('status', ['Playing', 'Fixture'])
+                    // ->whereIn('status', ['Playing÷', 'Fixture'])
                     ->where('hide', false)
-                    // ->where('start_play', '>', Carbon::now()->subHours(3)->toDateTimeString())
+                    ->where('start_play', '>', Carbon::now()->subHours(2)->toDateTimeString())
                     ->orderBy('start_play','asc')
                     ->orderBy('important','desc')
                     ->orderBy('id','asc')
@@ -63,8 +65,8 @@ class HomeController extends Controller
                         'competition_id' => $index->event->competition->id,
                         'competition_name' => $index->event->competition->name,
                         'id' => $index->event->id,
-                        'status' => $index->event->status,
-                        'status_text' => __('home.' . mb_strtolower($index->event->status)),
+                        'status' => $index->event->status_string,
+                        'status_text' => __('home.' . mb_strtolower($index->event->status_string)),
                         'home_team' => $index->event->homeTeam->name,
                         'home_team_logo' => $index->event->homeTeam->logo,
                         'away_team' => $index->event->awayTeam->name,
@@ -106,7 +108,8 @@ class HomeController extends Controller
         $indexes = Index::with('event')
                     ->whereIn('id', $ids)
                     ->where('hide', false)
-                    ->whereIn('status', ['Playing', 'Played'])
+                    // ->whereIn('status', ['Playing', 'Played'])
+                    ->where('start_play', '>', Carbon::now()->subHours(2)->toDateTimeString())
                     ->orderBy('start_play','asc')
                     ->get();
         if ($indexes) {
@@ -116,8 +119,8 @@ class HomeController extends Controller
                 if ($index->event) {
                     $item = [
                         'id' => $index->event->id,
-                        'status' => $index->event->status,
-                        'status_text' => __('home.' . mb_strtolower($index->event->status)),
+                        'status' => $index->event->status_string,
+                        'status_text' => __('home.' . mb_strtolower($index->event->status_string)),
                         'home_score' => $index->event->home_score,
                         'away_score' => $index->event->away_score,
                         'minute' => $index->event->minute ?: 0,

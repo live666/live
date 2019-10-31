@@ -18,7 +18,7 @@ class CreateEventsTable extends Migration
             $table->integer('competition_id');
             $table->bigInteger('sid');
             $table->dateTime('start_play');
-            $table->string('status');
+            $table->string('status')->nullable();
             $table->bigInteger('home_team_id');
             $table->smallInteger('home_score')->nullable();
             $table->bigInteger('away_team_id');
