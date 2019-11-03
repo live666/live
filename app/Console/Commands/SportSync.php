@@ -88,6 +88,16 @@ class SportSync extends Command
                 ]);
                 $event = Event::where('sid', $item->mid)->first();
                 $startPlay = (new Carbon($item->gameTime))->setTimezone(Config::get('app.timezone'));
+                $status = null;
+                if ($item->gameStage) {
+                    if ($item->gameStage == '完场') {
+                       $status = 'Played';
+                    } else if ($item->gameStage == '推迟') {
+                        $status = 'Postponed';
+                    } else if (in_array($item->gameStage, ['上半场', '下半场']) || preg_match('/第.*节/i', $item->gameStage)) {
+                        $status = 'Playing';
+                    }
+                }
                 if (!$event) {
                     $event = new Event();
                     $event->sid = $item->mid;
@@ -97,6 +107,13 @@ class SportSync extends Command
                     $event->home_score = $item->hTotalScore;
                     $event->away_team_id = $awayTeam->id;
                     $event->away_score = $item->aTotalScore;
+                    $event->status = $status;
+                    if ($item->gameProgress) {
+                        $event->minute = explode(":", $item->gameProgress)[0];
+                    }
+                    if ($item->gameStage) {
+                        $event->period = $item->gameStage;
+                    }
                 } else {
                     if ($event->start_play->timestamp != $startPlay->timestamp) {
                         $event->start_play = $startPlay;
@@ -107,25 +124,51 @@ class SportSync extends Command
                     if ($event->away_score != $item->aTotalScore) {
                         $event->away_score = $item->aTotalScore;
                     }
+                    if ($event->status != $status) {
+                        $event->status = $status;
+                    }
+                    if ($item->gameProgress) {
+                        $minute = intval(explode(":", $item->gameProgress)[0]);
+                        if ($event->minute != $minute) {
+                            $event->minute = $minute;
+                        }
+                    }
+                    if ($event->period != $item->gameStage) {
+                        $event->period = $item->gameStage;
+                    }
                 }
                 $event->save();
-                $service->syncIndexModel($event, $sport, false);
 
+                $hasLive = false;
                 if (isset($item->stream) && isset($item->stream->m3u8)) {
+                    $hasLive = true;
                     $service->syncChannelModel($event, [
                         'url' => $item->stream->m3u8,
                     ]);
                 }
-                $info = sprintf('Sync Event: %d %s %s %s (%d) VS %s (%d)',
+
+                $important = false;
+                if ($item->hot) {
+                    $important = true;
+                }
+                $service->syncIndexModel($event, $sport, $important, $hasLive);
+                
+                $info = sprintf('Sync Event: %d %s %s %s (%d) VS %s (%d) | %d | %s %s(%s) %d',
                             $item->mid,
                             isset($item->sportName) ? $item->sportName : '*',
                             isset($item->lname) ? $item->lname : '*',
-                            $item->gameTime,
                             isset($item->hname) ? $item->hname : '*',
+                            $item->hTotalScore,
                             isset($item->aname) ? $item->aname : '*',
-                            $item->aTotalScore
+                            $item->aTotalScore,
+                            $hasLive,
+                            $item->gameProgress ?: '-', 
+                            $item->gameStage ?: '-',
+                            $status ?: '-',
+                            $item->hot
                         );
                 $this->info($info);
+                // print_r($item);
             }
         } catch (\Exception $e) {
             Log::error('Caught exception: ' . $e->getMessage());

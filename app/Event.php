@@ -37,6 +37,9 @@ class Event extends Model
 
     public function getStatusStringAttribute()
     {
+        if ($this->status) {
+            return $this->status;
+        }
         if ($this->start_play) {
             $m = $this->start_play->timestamp - time();
             if ($m > 0) {

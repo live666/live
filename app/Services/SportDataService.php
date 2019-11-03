@@ -172,7 +172,7 @@ class SportDataService
         return $team;
     }
 
-    public function syncIndexModel(Event $event, $sport, $important = false)
+    public function syncIndexModel(Event $event, $sport, $important = false, $hasLive = false)
     {
         if(!$event->index) {
             $index = new Index();
@@ -182,6 +182,7 @@ class SportDataService
             $index->start_play = $event->start_play;
             $index->status = $event->status;
             $index->important = $important;
+            $index->has_live = $hasLive;
             $index->save();
         } else {
             if ($event->index->status != $event->status) {
@@ -192,6 +193,9 @@ class SportDataService
             }
             if ($event->index->important != $important) {
                 $event->index->important = $important;
+            }
+            if ($hasLive && !$event->index->has_live) {
+                $event->index->has_live = true;
             }
             $event->index->save();
         }

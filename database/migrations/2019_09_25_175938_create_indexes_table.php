@@ -20,6 +20,7 @@ class CreateIndexesTable extends Migration
             $table->dateTime('start_play');
             $table->string('status')->nullable();
             $table->boolean('important')->default(false);
+            $table->boolean('has_live')->default(false);
             $table->boolean('hide')->default(false);
             $table->timestamps();
         });

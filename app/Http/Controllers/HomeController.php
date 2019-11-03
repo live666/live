@@ -46,9 +46,12 @@ class HomeController extends Controller
                     ->get();
         $data['sports'] = $sports;
         $indexes = Index::with('event', 'event.competition', 'event.homeTeam', 'event.awayTeam', 'event.channels')
-                    // ->whereIn('status', ['Playing÷', 'Fixture'])
+                    ->where(function($query){
+                        $query->where('status', 'Playing')->orWhereNull('status');
+                    })
+                    ->where('has_live', true)
                     ->where('hide', false)
-                    ->where('start_play', '>', Carbon::now()->subHours(2)->toDateTimeString())
+                    ->where('start_play', '>', Carbon::now()->subHours(3)->toDateTimeString())
                     ->orderBy('start_play','asc')
                     ->orderBy('important','desc')
                     ->orderBy('id','asc')
