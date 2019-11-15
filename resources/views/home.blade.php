@@ -76,7 +76,7 @@
             <div class="col-1">{{ __('home.time') }}</div>
             <div class="col-1">{{ __('home.status') }}</div>
             <div class="col-2">{{ __('home.home_team') }}</div>
-            <div class="col-2">{{ __('home.score') }}</div>
+            <div class="col-1">{{ __('home.score') }}</div>
             <div class="col-2">{{ __('home.away_team') }}</div>
             <div class="col-2 text-left">{{ __('home.channel') }}</div>
         </div>
@@ -155,7 +155,7 @@
                         <div><img class="lazyload" src="img/football_holder.png" data-src='[[:home_team_logo]]' style="width:30px;height:30px;"/></div>
                         <div class="font-weight-bold py-1">[[:home_team]]</div>
                     </div>
-                    <div class="col-4 col-md-2 m-auto p-0">
+                    <div class="col-4 col-md-1 m-auto p-0">
                         <div class="d-md-none pb-1">
                         [^[if status == 'Playing']]
                             <label class="m-0 text-success e-minute">[^[:minute]]<label class="m-0 e-glint">'</label></label>
@@ -175,7 +175,7 @@
                         <div><img class="lazyload" src="img/football_holder.png" data-src='[[:away_team_logo]]' style="width:30px;height:30px;"/></div>
                         <div class="font-weight-bolder py-1">[[:away_team]]</div>
                     </div>
-                    <div class="col-md-2 col-12 m-auto text-md-left">
+                    <div class="col-md-3 col-12 m-auto text-md-left">
                         [^[for channels]]
                             <a href="{{ route('event', '') }}/[[:#parent.parent.data.id]]?c=[[:id]]" target="_blank" class="btn [[if #parent.parent.data.status == 'Playing']] btn-outline-success [[else]] btn-outline-secondary [[/if]] btn-sm d-none d-md-inline-block"><span class="oi oi-play-circle" title="play-circle" aria-hidden="true"></span>&nbsp;&nbsp;[[:name]]</a>
                             <a href="{{ route('event', '') }}/[[:#parent.parent.data.id]]?c=[[:id]]" target="_blank" class="btn [[if #parent.parent.data.status == 'Playing']] btn-success [[else]] btn-secondary [[/if]] btn-sm d-md-none"><span class="oi oi-play-circle" title="play-circle" aria-hidden="true"></span>&nbsp;&nbsp;[[:name]]</a>
