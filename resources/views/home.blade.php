@@ -177,8 +177,8 @@
                     </div>
                     <div class="col-md-2 col-12 m-auto text-md-left">
                         [^[for channels]]
-                            <a href="{{ route('event', '') }}/[[:#parent.parent.data.id]]?c=[[:id]]" target="_blank" class="btn [[if #parent.parent.data.status == 'Playing']] btn-outline-success [[else]] btn-outline-secondary [[/if]] btn-sm d-none d-md-inline-block"><span class="oi oi-play-circle" title="play-circle" aria-hidden="true"></span>&nbsp;&nbsp;{{ __('home.live') }} [^[:index+1]]</a>
-                            <a href="{{ route('event', '') }}/[[:#parent.parent.data.id]]?c=[[:id]]" target="_blank" class="btn [[if #parent.parent.data.status == 'Playing']] btn-success [[else]] btn-secondary [[/if]] btn-sm d-md-none"><span class="oi oi-play-circle" title="play-circle" aria-hidden="true"></span>&nbsp;&nbsp;{{ __('home.live') }} [^[:index+1]]</a>
+                            <a href="{{ route('event', '') }}/[[:#parent.parent.data.id]]?c=[[:id]]" target="_blank" class="btn [[if #parent.parent.data.status == 'Playing']] btn-outline-success [[else]] btn-outline-secondary [[/if]] btn-sm d-none d-md-inline-block"><span class="oi oi-play-circle" title="play-circle" aria-hidden="true"></span>&nbsp;&nbsp;[[:name]]</a>
+                            <a href="{{ route('event', '') }}/[[:#parent.parent.data.id]]?c=[[:id]]" target="_blank" class="btn [[if #parent.parent.data.status == 'Playing']] btn-success [[else]] btn-secondary [[/if]] btn-sm d-md-none"><span class="oi oi-play-circle" title="play-circle" aria-hidden="true"></span>&nbsp;&nbsp;[[:name]]</a>
                         [[/for]]
                     </div>
                 </div>

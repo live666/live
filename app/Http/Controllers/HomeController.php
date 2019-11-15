@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Sport;
 use App\Competition;
@@ -24,12 +25,10 @@ class HomeController extends Controller
         $basketballCompetitionsId = explode(',', Config::get('sport.basketball_competitions_id'));
 
         $data = [];
-        $locale = App::getLocale();
+        $locale = empty(App::getLocale()) ? Config::get('app.default_locale') : App::getLocale();
         $data['locales'] = Config::get('app.locales');
         $data['locale'] = $locale;
-        if (empty($data['locale'])) {
-            $data['locale'] = Config::get('app.default_locale');
-        }
+
         $competitions = Competition::whereIn('id', $homeCompetitionsId)->orderBy('sid')->get();
         $data['competitions'] = $competitions;
         $all = Competition::whereIn('sport_id', [1])
@@ -49,7 +48,10 @@ class HomeController extends Controller
                     ->orderBy('id')
                     ->get();
         $data['sports'] = $sports;
-        $indexes = Index::with('event', 'event.competition', 'event.homeTeam', 'event.awayTeam', 'event.channels')
+        $indexes = Index::with('event', 'event.competition', 'event.homeTeam', 'event.awayTeam')
+                    ->with(['event.channels' => function($query){
+                        $query->orderByRaw(DB::raw("FIELD(`key`, 'stream', 'streamNa', 'streamAmAli')"));
+                    }])
                     ->where(function($query) use ($basketballSportId, $basketballCompetitionsId){
                         $query->where('sport_id', $basketballSportId)->whereIn('competition_id', $basketballCompetitionsId)->orWhere('sport_id', '!=', $basketballSportId);
                     })
@@ -89,6 +91,9 @@ class HomeController extends Controller
                     ];
                     $channels = [];
                     foreach ($index->event->channels as $i => $channel) {
+                        if ($index->event->status_string == 'Playing' && !$channel->status) {
+                            continue;
+                        }
                         $channels[] = [
                             'index' => $i,
                             'id' => $channel->id,
@@ -135,6 +140,9 @@ class HomeController extends Controller
                     ];
                     $channels = [];
                     foreach ($index->event->channels as $i => $channel) {
+                        if ($index->event->status_string == 'Playing' && !$channel->status) {
+                            continue;
+                        }
                         $channels[] = [
                             'index' => $i,
                             'id' => $channel->id,
