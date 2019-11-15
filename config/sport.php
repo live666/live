@@ -12,6 +12,8 @@ return [
     'home_sports_id' => env('HOME_SPORTS_ID'),
 
     'home_competitions_id' => env('HOME_COMPETITIONS_ID'),
+    
+    'home_only_live' => env('HOME_ONLY_LIVE', true),
 
     'basketball_sport_id' => env('BASKETBALL_SPORT_ID'),
     

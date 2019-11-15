@@ -142,7 +142,13 @@
                     <div class="col-1 m-auto d-none d-md-flex justify-content-center">[[:time]]</div>
                     <div class="col-1 m-auto d-none d-md-flex justify-content-center">
                         [^[if status == 'Playing']]
-                            <label class="m-0 text-success e-minute">[^[:minute]]<label class="m-0 e-glint">'</label></label>
+                            <label class="m-0 text-success e-minute">
+                                [^[if minute]]
+                                    [^[:minute]]<label class="m-0 e-glint">'</label>
+                                [[else]]
+                                    [^[:period]]
+                                [[/if]]
+                            </label>
                         [[else]]
                             [^[if status == 'Played']]
                                 <label class="m-0 text-primary e-status">[^[:status_text]]</label>

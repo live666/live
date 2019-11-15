@@ -19,9 +19,10 @@ class HomeController extends Controller
     {
         $homeSportsId = explode(',', Config::get('sport.home_sports_id'));
         $homeCompetitionsId = explode(',', Config::get('sport.home_competitions_id'));
+        $homeOnlyLive = Config::get('sport.home_only_live');
 
         // Basketball Competitions Filter
-        $basketballSportId = explode(',', Config::get('sport.basketball_sport_id'), 2);
+        $basketballSportId = Config::get('sport.basketball_sport_id');
         $basketballCompetitionsId = explode(',', Config::get('sport.basketball_competitions_id'));
 
         $data = [];
@@ -53,12 +54,14 @@ class HomeController extends Controller
                         $query->orderByRaw(DB::raw("FIELD(`key`, 'stream', 'streamNa', 'streamAmAli')"));
                     }])
                     ->where(function($query) use ($basketballSportId, $basketballCompetitionsId){
-                        $query->where('sport_id', $basketballSportId)->whereIn('competition_id', $basketballCompetitionsId)->orWhere('sport_id', '!=', $basketballSportId);
+                        if (count($basketballCompetitionsId)) {
+                            $query->where('sport_id', $basketballSportId)->whereIn('competition_id', $basketballCompetitionsId)->orWhere('sport_id', '!=', $basketballSportId);
+                        }
                     })
                     ->where(function($query){
                         $query->where('status', 'Playing')->orWhereNull('status');
                     })
-                    ->where('has_live', true)
+                    ->where('has_live', $homeOnlyLive)
                     ->where('hide', false)
                     ->where('start_play', '>', Carbon::now()->subHours(3)->toDateTimeString())
                     ->orderBy('start_play','asc')
