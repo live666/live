@@ -11,6 +11,10 @@ return [
 
     'home_sports_id' => env('HOME_SPORTS_ID'),
 
-    'home_competitions_id' => env('HOME_COMPETITION_ID')
+    'home_competitions_id' => env('HOME_COMPETITIONS_ID'),
+
+    'basketball_sport_id' => env('BASKETBALL_SPORT_ID'),
+    
+    'basketball_competitions_id' => env('BASKETBALL_FILTER_COMPETITIONS_ID'),
 
 ];

@@ -203,12 +203,20 @@ class SportDataService
 
     public function syncChannelModel($event, $item)
     {
-        if (is_null($item['url'])) return null;
-        $channel = Channel::where('event_id', $event->id)->where('url', $item['url'])->first();
+        if (is_null($item['key'])) return null;
+        $channel = Channel::where('event_id', $event->id)->where('key', $item['key'])->first();
         if (!$channel) {
             $channel = new Channel();
             $channel->event_id = $event->id;
-            $channel->url = $item['url'];
+            $channel->key = $item['key'];
+            $channel->live = $item['live'];
+            $channel->status = $item['status'];
+        } else {
+            $channel->live = $item['live'];
+            $channel->status = $item['status'];
+        }
+        if (isset($item['live']['m3u8'])) {
+            $channel->url = $item['live']['m3u8'];
         }
         $channel->save();
         return $channel;

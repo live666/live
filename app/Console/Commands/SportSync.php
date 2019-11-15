@@ -140,10 +140,31 @@ class SportSync extends Command
                 $event->save();
 
                 $hasLive = false;
-                if (isset($item->stream) && isset($item->stream->m3u8)) {
+                // Live 1
+                if (isset($item->stream) && count(array_keys((array)$item->stream))) {
                     $hasLive = true;
                     $service->syncChannelModel($event, [
-                        'url' => $item->stream->m3u8,
+                        'key' => 'stream',
+                        'live' => (array) $item->stream,
+                        'status' => $item->stream->status ?: false
+                    ]);
+                }
+                // Live 2
+                if (isset($item->streamNa) && isset($item->streamNa->live) && count(array_keys((array)$item->streamNa->live))) {
+                    $hasLive = true;
+                    $service->syncChannelModel($event, [
+                        'key' => 'streamNa',
+                        'live' => (array) $item->streamNa->live,
+                        'status' => $item->streamNa->live->status ?: false
+                    ]);
+                }
+                // Live 3
+                if (isset($item->streamAmAli) && count(array_keys((array)$item->streamAmAli))) {
+                    $hasLive = true;
+                    $service->syncChannelModel($event, [
+                        'key' => 'streamAmAli',
+                        'live' => (array) $item->streamAmAli ,
+                        'status' => $item->streamAmAli->status ?: false
                     ]);
                 }
 
