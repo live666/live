@@ -18,6 +18,11 @@ class HomeController extends Controller
     {
         $homeSportsId = explode(',', Config::get('sport.home_sports_id'));
         $homeCompetitionsId = explode(',', Config::get('sport.home_competitions_id'));
+
+        // Basketball Competitions Filter
+        $basketballSportId = explode(',', Config::get('sport.basketball_sport_id'), 2);
+        $basketballCompetitionsId = explode(',', Config::get('sport.basketball_competitions_id'));
+
         $data = [];
         $locale = App::getLocale();
         $data['locales'] = Config::get('app.locales');
@@ -45,6 +50,9 @@ class HomeController extends Controller
                     ->get();
         $data['sports'] = $sports;
         $indexes = Index::with('event', 'event.competition', 'event.homeTeam', 'event.awayTeam', 'event.channels')
+                    ->where(function($query) use ($basketballSportId, $basketballCompetitionsId){
+                        $query->where('sport_id', $basketballSportId)->whereIn('competition_id', $basketballCompetitionsId)->orWhere('sport_id', '!=', $basketballSportId);
+                    })
                     ->where(function($query){
                         $query->where('status', 'Playing')->orWhereNull('status');
                     })
