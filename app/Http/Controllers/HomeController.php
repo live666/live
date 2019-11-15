@@ -23,7 +23,7 @@ class HomeController extends Controller
 
         // Basketball Competitions Filter
         $basketballSportId = Config::get('sport.basketball_sport_id');
-        $basketballCompetitionsId = explode(',', Config::get('sport.basketball_competitions_id'));
+        $basketballCompetitionsId = Config::get('sport.basketball_competitions_id') ? explode(',', Config::get('sport.basketball_competitions_id')) : null;
 
         $data = [];
         $locale = empty(App::getLocale()) ? Config::get('app.default_locale') : App::getLocale();
@@ -54,16 +54,20 @@ class HomeController extends Controller
                         $query->orderByRaw(DB::raw("FIELD(`key`, 'stream', 'streamNa', 'streamAmAli')"));
                     }])
                     ->where(function($query) use ($basketballSportId, $basketballCompetitionsId){
-                        if (count($basketballCompetitionsId)) {
+                        if ($basketballCompetitionsId) {
                             $query->where('sport_id', $basketballSportId)->whereIn('competition_id', $basketballCompetitionsId)->orWhere('sport_id', '!=', $basketballSportId);
                         }
                     })
                     ->where(function($query){
                         $query->where('status', 'Playing')->orWhereNull('status');
                     })
-                    ->where('has_live', $homeOnlyLive)
+                    ->where(function($query) use ($homeOnlyLive){
+                        if ($homeOnlyLive) {
+                           $query->where('has_live', $homeOnlyLive);
+                        }
+                    })
                     ->where('hide', false)
-                    ->where('start_play', '>', Carbon::now()->subHours(3)->toDateTimeString())
+                    ->where('start_play', '>', Carbon::now()->subHours(2)->toDateTimeString())
                     ->orderBy('start_play','asc')
                     ->orderBy('important','desc')
                     ->orderBy('id','asc')
