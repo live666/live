@@ -22,16 +22,12 @@
                         <div class="btn-group">
                             <div class="dropdown ">
                                 <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                @foreach ($locales as $k => $v)
-                                    @if( $locale == $k )
-                                        {{ $v }}
-                                    @endif
-                                @endforeach
+                                    {{ $locales[$locale]}}
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 @foreach ($locales as $k => $v)
                                     @if( $locale != $k )
-                                        <a class="dropdown-item" href="/{{ $k }}">{{ $v }}</a>    
+                                        <a class="dropdown-item" href="{{ 'zh-cn' != $k ? '/'.$k : '/' }}">{{ $v }}</a>    
                                     @endif
                                 @endforeach
                                 </div>

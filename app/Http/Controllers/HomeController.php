@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 use App\Sport;
@@ -24,7 +23,7 @@ class HomeController extends Controller
         $data['locales'] = Config::get('app.locales');
         $data['locale'] = $locale;
         if (empty($data['locale'])) {
-            $data['locale'] = 'en';
+            $data['locale'] = Config::get('app.default_locale');
         }
         $competitions = Competition::whereIn('id', $homeCompetitionsId)->orderBy('sid')->get();
         $data['competitions'] = $competitions;
@@ -95,10 +94,6 @@ class HomeController extends Controller
             }
         }
         $data['events'] = $events;
-        $lang = Cookie::get('lang');
-        if (!empty($locale) && (!$lang || $lang != $locale)) {
-            Cookie::queue('lang', $locale, 600);
-        }
         return view('home', $data);
     }
 

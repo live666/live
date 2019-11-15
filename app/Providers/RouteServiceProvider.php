@@ -65,9 +65,6 @@ class RouteServiceProvider extends ServiceProvider
                 require base_path('routes/web.php');
             });
         } else {
-            if (Cookie::get('lang') && array_key_exists(Cookie::get('lang'), $this->app->config->get('app.locales'))) {
-                $this->app->setLocale(Cookie::get('lang'));
-            }
             Route::group([
                 'middleware' => 'web',
                 'namespace' => $this->namespace,

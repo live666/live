@@ -85,6 +85,7 @@ return [
     */
 
     'locale' => env('APP_LOCALE', 'en'),
+    'default_locale' => env('APP_LOCALE', 'en'),
 
     'locales' => ['zh-cn' => '中文', 'en' => 'English', 'es' => 'España', 'vi' => 'Việt'],
 
