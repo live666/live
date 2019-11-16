@@ -5,7 +5,6 @@ namespace App\Providers;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Request;
-use Illuminate\Support\Facades\Cookie;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -38,13 +37,11 @@ class RouteServiceProvider extends ServiceProvider
     public function map()
     {
         $locale = Request::segment(1);
-        $this->app->setLocale($locale);
-
+        if (array_key_exists($locale, $this->app->config->get('app.locales'))) {
+            $this->app->setLocale($locale);
+        }
         $this->mapApiRoutes();
-
         $this->mapWebRoutes($locale);
-
-        //
     }
 
     /**

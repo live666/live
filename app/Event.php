@@ -52,4 +52,20 @@ class Event extends Model
         }
         return null;
     }
+
+    public function getHomeScoreAttribute()
+    {
+        if ($this->status_string && $this->status_string == 'Playing') {
+            return $this->attributes['home_score'] ?:0;
+        }
+        return $this->attributes['home_score'];
+    }
+
+    public function getAwayScoreAttribute()
+    {
+        if ($this->status_string && $this->status_string == 'Playing') {
+            return $this->attributes['away_score'] ?:0;
+        }
+        return $this->attributes['away_score'];
+    }
 }
