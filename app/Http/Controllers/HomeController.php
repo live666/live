@@ -68,7 +68,7 @@ class HomeController extends Controller
                     })
                     ->where('hide', false)
                     ->where('start_play', '>', Carbon::now()->subHours(2)->toDateTimeString())
-                    ->orderByRaw(DB::raw("DATE_FORMAT(`updated_at`, '%Y-%m-%d')"))
+                    ->orderByRaw(DB::raw("DATE_FORMAT(`start_play`, '%Y-%m-%d')"))
                     ->orderBy('important','desc')
                     ->orderBy('start_play','asc')
                     ->get();

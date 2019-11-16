@@ -170,7 +170,7 @@
                                 [[else]]
                                     [^[:period]]
                                 [[/if]]
-                                <label class="m-0 e-glint">'</label>
+                                
                             </label>
                         [[else]]
                             [^[if status == 'Played']]
