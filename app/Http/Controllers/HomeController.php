@@ -98,9 +98,6 @@ class HomeController extends Controller
                     ];
                     $channels = [];
                     foreach ($index->event->channels as $i => $channel) {
-                        if ($index->event->status_string == 'Playing' && !$channel->status) {
-                            continue;
-                        }
                         $channels[] = [
                             'index' => $i,
                             'id' => $channel->id,
@@ -108,7 +105,6 @@ class HomeController extends Controller
                         ];
                     }
                     $item['channels'] = $channels;
-                    
                 }
                 $events[] = $item;
             }
@@ -126,7 +122,6 @@ class HomeController extends Controller
         $indexes = Index::with('event')
                     ->whereIn('id', $ids)
                     ->where('hide', false)
-                    // ->whereIn('status', ['Playing', 'Played'])
                     ->where('start_play', '>', Carbon::now()->subHours(2)->toDateTimeString())
                     ->orderBy('start_play','asc')
                     ->get();
@@ -147,9 +142,6 @@ class HomeController extends Controller
                     ];
                     $channels = [];
                     foreach ($index->event->channels as $i => $channel) {
-                        if ($index->event->status_string == 'Playing' && !$channel->status) {
-                            continue;
-                        }
                         $channels[] = [
                             'index' => $i,
                             'id' => $channel->id,
@@ -169,7 +161,10 @@ class HomeController extends Controller
     {
         $c = $request->get('c');
         $data = ['c' => $c];
-        $index = Index::with('event')->where('id', $id)->first();
+        $index = Index::with('event')
+            ->with(['event.channels' => function($query){
+                $query->orderByRaw(DB::raw("FIELD(`key`, 'stream', 'streamNa', 'streamAmAli')"));
+            }])->where('id', $id)->first();
         $data['index'] = $index;
         return view('event', $data);
     }
