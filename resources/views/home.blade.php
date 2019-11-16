@@ -164,7 +164,14 @@
                     <div class="col-4 col-md-1 m-auto p-0">
                         <div class="d-md-none pb-1">
                         [^[if status == 'Playing']]
-                            <label class="m-0 text-success e-minute">[^[:minute]]<label class="m-0 e-glint">'</label></label>
+                            <label class="m-0 text-success e-minute">
+                                [^[if minute]]
+                                    [^[:minute]]<label class="m-0 e-glint">'</label>
+                                [[else]]
+                                    [^[:period]]
+                                [[/if]]
+                                <label class="m-0 e-glint">'</label>
+                            </label>
                         [[else]]
                             [^[if status == 'Played']]
                                 <label class="m-0 text-primary e-status">[^[:status_text]]</label>

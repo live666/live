@@ -26,7 +26,9 @@
             </div>
             <div class="col-4 text-center">
                 <span class="text-danger" id="e-status" @if ($index->event->status_string == 'Playing') style="display:none" @endif>{{ __('home.' . mb_strtolower($index->event->status_string)) }}</span>
-                <span class="text-success" id="e-minute" @if ($index->event->status_string != 'Playing') style="display:none" @endif><span id="e-minute-time">{{ $index->event->minute }}</span><label class="m-0 e-glint">'</label></span>
+                <span class="text-success" id="e-minute" @if ($index->event->status_string != 'Playing') style="display:none" @endif>
+                    <span id="e-minute-time">@if($index->event->minute) {{ $index->event->minute }} @else {{ $index->event->period}} @endif</span><label class="m-0 e-glint" @if(!$index->event->minute) style="display:none;" @endif>'</label>
+                </span>
             </div>
             <div class="col-4 text-right text-muted" id="e-time"></div>
         </div>
@@ -70,6 +72,7 @@
         var status = '{{ $index->event->status_string }}';
         var status_text = '{{ __('home.' . mb_strtolower($index->event->status_string)) }}';
         var minute = '{{ $index->event->minute }}';
+        var period = '{{ $index->event->period }}';
         var d = new Date('{{ $index->event->start_play->toJSON() }}');
         var homeScore = {{ ($index->event->home_score) ?: 0 }};
         var awayScore = {{ ($index->event->away_score) ?: 0 }};
@@ -103,7 +106,16 @@
                         }
                         if (el.minute != minute) {
                             minute = el.minute;   
+                        }
+                        if (el.period != period) {
+                            period = el.period;   
+                        }
+                        if (el.minute) {
                             $("#e-minute-time").html(minute);
+                            $('.e-glint').show();
+                        }  else {
+                            $("#e-minute-time").html(period);
+                            $('.e-glint').hide();
                         }
                         if (el.status != status) {
                             status = el.status;
