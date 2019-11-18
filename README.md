@@ -31,6 +31,8 @@ A Webapp Like https://jindouyun.tv
 
 `# chown -R www-data:www-data /home/webapps/live`
 
+`# chmod -R 755 /home/webapps/live/storage`
+
 #### Import Database Tables
 `# tar -zxvf live.sql.tar.gz`
 
