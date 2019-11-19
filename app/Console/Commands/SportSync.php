@@ -51,7 +51,7 @@ class SportSync extends Command
             return $data->token;
         });
         try {
-            $data = $service->requestEpgs($token);
+            $data = $service->requestEpgs($token, null, Carbon::now()->addDays(7)->toDateString());
             if (!$data) {
                 return;
             }
@@ -174,8 +174,9 @@ class SportSync extends Command
                 }
                 $service->syncIndexModel($event, $sport, $important, $hasLive);
                 
-                $info = sprintf('Sync Event: %d %s %s %s (%d) VS %s (%d) | %d | %s %s(%s) %d',
+                $info = sprintf('Sync Event: %d %s %s %s %s (%d) VS %s (%d) | %d | %s %s(%s) %d',
                             $item->mid,
+                            $item->gameTime,
                             isset($item->sportName) ? $item->sportName : '*',
                             isset($item->lname) ? $item->lname : '*',
                             isset($item->hname) ? $item->hname : '*',
