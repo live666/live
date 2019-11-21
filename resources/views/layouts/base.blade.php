@@ -3,7 +3,16 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1.0, user-scalable=0">
-    <title>{{ config('app.name', 'Live') }}</title>
+    <title>{{ config('html.title', 'Live') }}</title>
+
+    <meta name="description" content="{{ config('html.description') }}">
+    <meta name="keywords" content="{{ config('html.keywords') }}">
+
+    <meta name="apple-mobile-web-app-title" content="{{ config('app.name', 'Live') }}">
+    <meta name="application-name" content="{{ config('app.name', 'Live') }}">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="apple-touch-icon" href="{{ config('html.apple_touch_icon') }}">
+
     <link href="{{ asset('/css/app.css') }}" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css" rel="stylesheet">
     @yield('header')
@@ -29,5 +38,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/umd/popper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
     @yield('footer')
+
+    @if (config('html.baidu_tongji_id'))
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?{{ config('html.baidu_tongji_id') }}";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+    @endif
 </body>
 </html>
