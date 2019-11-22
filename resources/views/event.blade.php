@@ -1,6 +1,6 @@
 @extends('layouts.base')
 
-@section('title', config('html.title_event'))
+@section('title', $index->event->homeTeam->name . " VS " . $index->event->awayTeam->name . " " . config('html.title_event'))
 
 @section('main')
     <div class="container">

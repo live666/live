@@ -13,7 +13,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <link rel="apple-touch-icon" href="{{ config('html.apple_touch_icon') }}">
 
-    <link href="{{ asset('/css/app.css') }}" rel="stylesheet">
+    <link href="/css/app.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css" rel="stylesheet">
     @yield('header')
 </head>
