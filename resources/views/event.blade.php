@@ -1,5 +1,7 @@
 @extends('layouts.base')
 
+@section('title', config('html.title_event'))
+
 @section('main')
     <div class="container">
         <div class="row" style="display:none;" id="cover">
