@@ -25,8 +25,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command(SportSync::class, ['1'])->everyMinute();
-        $schedule->command(SportSync::class, ['7'])->hourly();
+        $schedule->command(SportSync::class, ['1'])->everyMinute()->onOneServer();
+        $schedule->command(SportSync::class, ['7'])->hourly()->onOneServer();
     }
 
     /**
