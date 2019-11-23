@@ -35,7 +35,6 @@ class HomeController extends Controller
         $all = Competition::whereIn('sport_id', [1])
                 ->whereNotNull('letter')
                 ->orderBy('letter')
-                ->orderBy('sid')
                 ->get();
         $categories = [];
         foreach($all as $a) {

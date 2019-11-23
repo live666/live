@@ -59,8 +59,8 @@
 @endsection
 
 @section('footer')
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/video.js/6.7.3/video-js.min.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.5.4/video.min.js"></script>
+    <link href="https://cdn.staticfile.org/video.js/7.6.5/video-js.min.css" rel="stylesheet">
+    <script src="https://cdn.staticfile.org/video.js/7.6.5/video.min.js"></script>
     <style>
         .video-js .vjs-big-play-button {
             border: none;
@@ -129,7 +129,7 @@
                         }
                     }
                 });
-                watchTimeout = setTimeout(function(){ watch(); }, 20000);
+                watchTimeout = setTimeout(function(){ watch(); }, 30000);
             }
         }
 
@@ -154,6 +154,7 @@
         }
         
         function start() {
+            videojs.addLanguage('{{ app()->getLocale() }}', {"The media could not be loaded, either because the server or network failed or because the format is not supported.": "{{ __('home.video_error') }}"});
             var player = videojs('v-player', {
                     responsive: true,
                     autoplay: true,
@@ -168,7 +169,9 @@
                         volumeMenuButton: true,
                     }
                 });
-                watch();
+                
+
+                setTimeout(function(){ watch(); }, 30000);
                 glintInterval = setInterval(function(){$('.e-glint').toggleClass('text-white')}, 1000);
                 $('.play-live').on('click', function(){
                     player.src($(this).attr('data-src'));

@@ -119,8 +119,8 @@
 @endsection
 
 @section('footer')
-    <script src="https://cdn.jsdelivr.net/npm/lazyload@2.0.0-rc.2/lazyload.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsviews/1.0.4/jsviews.min.js"></script>
+    <script src="https://cdn.staticfile.org/lazyload/2.0.3/lazyload-min.js"></script>
+    <script src="https://cdn.staticfile.org/jsviews/1.0.5/jsviews.min.js"></script>
     <style>
         @media (max-width: 576px) {
             body {
@@ -341,7 +341,7 @@
                     }
                 });
             }
-            watchTimeout = setTimeout(function(){ watch(); }, 20000);
+            watchTimeout = setTimeout(function(){ watch(); }, 30000);
         }
 
         $(function(){
@@ -370,7 +370,7 @@
                 window.location.reload();
             });
             glintInterval = setInterval(function(){$('.e-glint').toggleClass('text-white')}, 1000);
-            watch();
+            setTimeout(function(){ watch(); }, 30000);
             lazyload();
             document.addEventListener('visibilitychange', function(){  
                 if( document.visibilityState == 'hidden' || document.visibilityState == 'webkitHidden' || document.visibilityState == 'mozHidden') {  

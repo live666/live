@@ -14,7 +14,7 @@
     <link rel="apple-touch-icon" href="{{ config('html.apple_touch_icon') }}">
 
     <link href="/css/app.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.staticfile.org/open-iconic/1.1.1/font/css/open-iconic-bootstrap.min.css" rel="stylesheet">
     @yield('header')
 </head>
 <body>
@@ -34,9 +34,9 @@
     <main>
         @yield('main')
     </main>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/umd/popper.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
     @yield('footer')
 
     @if (config('html.baidu_tongji_id'))

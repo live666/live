@@ -27,4 +27,5 @@ return [
     'countdown_text' => '距赛事直播还有 :countdown',
     'days' => '天',
 
+    'video_error' => '直播源出错！请刷新页面或切换其它直播源进行播放.',
 ];

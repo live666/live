@@ -26,4 +26,6 @@ return [
 
     'countdown_text' => 'There is still :countdown from the live event',
     'days' => 'days',
+
+    'video_error' => 'Live source error! Please refresh or switch other live streams to play.',
 ];
