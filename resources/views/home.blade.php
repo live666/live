@@ -119,7 +119,7 @@
 @endsection
 
 @section('footer')
-    <script src="https://cdn.staticfile.org/lazyload/2.0.3/lazyload-min.js"></script>
+    <script src="https://cdn.staticfile.org/jquery.lazyload/1.9.1/jquery.lazyload.min.js"></script>
     <script src="https://cdn.staticfile.org/jsviews/1.0.5/jsviews.min.js"></script>
     <style>
         @media (max-width: 576px) {
@@ -158,7 +158,7 @@
                         [[/if]]
                     </div>
                     <div class="col-4 col-md-2 m-auto p-0">
-                        <div><img class="lazyload" src="img/football_holder.png" data-src='[[:home_team_logo]]' style="width:30px;height:30px;"/></div>
+                        <div><img class="lazyload" src="img/football_holder.png" data-original='[[:home_team_logo]]' style="width:30px;height:30px;"/></div>
                         <div class="font-weight-bold py-1">[[:home_team]]</div>
                     </div>
                     <div class="col-4 col-md-1 m-auto p-0">
@@ -185,7 +185,7 @@
                         </div>
                     </div>
                     <div class="col-4 col-md-2 m-auto p-0">
-                        <div><img class="lazyload" src="img/football_holder.png" data-src='[[:away_team_logo]]' style="width:30px;height:30px;"/></div>
+                        <div><img class="lazyload" src="img/football_holder.png" data-original='[[:away_team_logo]]' style="width:30px;height:30px;"/></div>
                         <div class="font-weight-bolder py-1">[[:away_team]]</div>
                     </div>
                     <div class="col-md-3 col-12 m-auto text-md-left">
@@ -207,7 +207,6 @@
     </script>
     
     <script type="application/javascript">
-        let lazy;
         $.views.settings.delimiters("[[", "]]");
         function utcLocal(value) {
             d = new Date(value);
@@ -244,7 +243,7 @@
                 t: totalEvents
             };
         eTemplate.link("#events", app);
-        
+        $("img.lazyload").lazyload();
         var watchTimeout, glintInterval;
 
         var refresh = function (competitions, sport) {
@@ -371,7 +370,6 @@
             });
             glintInterval = setInterval(function(){$('.e-glint').toggleClass('text-white')}, 1000);
             setTimeout(function(){ watch(); }, 30000);
-            lazyload();
             document.addEventListener('visibilitychange', function(){  
                 if( document.visibilityState == 'hidden' || document.visibilityState == 'webkitHidden' || document.visibilityState == 'mozHidden') {  
                     clearTimeout(watchTimeout);

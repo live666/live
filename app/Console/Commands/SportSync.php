@@ -17,7 +17,7 @@ class SportSync extends Command
      *
      * @var string
      */
-    protected $signature = 'sport';
+    protected $signature = 'sport {days?}';
 
     /**
      * The console command description.
@@ -50,8 +50,10 @@ class SportSync extends Command
             Cache::put('api_token', $data->token, ($expired->timestamp - Carbon::now()->timestamp));
             return $data->token;
         });
+        $days = $this->argument('days') ? :1;
         try {
-            $data = $service->requestEpgs($token, null, Carbon::now()->addDays(7)->toDateString());
+            Log::info('Sync data: '.$days.' Days');
+            $data = $service->requestEpgs($token, null, Carbon::now()->addDays(intval($days))->toDateString());
             if (!$data) {
                 return;
             }
@@ -59,6 +61,15 @@ class SportSync extends Command
                 if (is_null($item->mid)) {
                     $this->error('mid is empty');
                     Log::error('mid is empty', (array) $item);
+                    continue;
+                }
+                $startPlay = (new Carbon($item->gameTime))->setTimezone(Config::get('app.timezone'));
+                if ((time() - $startPlay->timestamp) > (60*60*4) ) {
+                    continue;
+                }
+                $lastUpdate = (new Carbon($item->updated_at))->setTimezone(Config::get('app.timezone'));
+                $event = Event::where('sid', $item->mid)->first();
+                if ($event && $event->last_update && $event->last_update->timestamp == $lastUpdate->timestamp) {
                     continue;
                 }
                 $sport = $service->syncSportModel([
@@ -86,8 +97,6 @@ class SportSync extends Command
                     'name_en' => $item->anameEN,
                     'logo' => $item->aicon,
                 ]);
-                $event = Event::where('sid', $item->mid)->first();
-                $startPlay = (new Carbon($item->gameTime))->setTimezone(Config::get('app.timezone'));
                 $status = null;
                 if ($item->gameStage) {
                     if ($item->gameStage == '完场') {
@@ -137,6 +146,7 @@ class SportSync extends Command
                         $event->period = $item->gameStage;
                     }
                 }
+                $event->last_update = $lastUpdate;
                 $event->save();
 
                 $hasLive = false;
@@ -174,7 +184,7 @@ class SportSync extends Command
                 }
                 $service->syncIndexModel($event, $sport, $important, $hasLive);
                 
-                $info = sprintf('Sync Event: %d %s %s %s %s (%d) VS %s (%d) | %d | %s %s(%s) %d',
+                $info = sprintf('Sync Event: %d %s %s %s %s (%d) VS %s (%d) | %d | %s %s(%s) %d | %s | %s',
                             $item->mid,
                             $item->gameTime,
                             isset($item->sportName) ? $item->sportName : '*',
@@ -187,10 +197,11 @@ class SportSync extends Command
                             $item->gameProgress ?: '-', 
                             $item->gameStage ?: '-',
                             $status ?: '-',
-                            $item->hot
+                            $item->hot,
+                            $lastUpdate,
+                            time() - $startPlay->timestamp
                         );
                 $this->info($info);
-                // print_r($item);
             }
         } catch (\Exception $e) {
             Log::error('Caught exception: ' . $e->getMessage());

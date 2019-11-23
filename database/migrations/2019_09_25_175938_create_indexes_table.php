@@ -17,7 +17,7 @@ class CreateIndexesTable extends Migration
             $table->bigInteger('id')->primary();
             $table->integer('sport_id');
             $table->integer('competition_id');
-            $table->dateTime('start_play');
+            $table->dateTime('start_play')->index();
             $table->string('status')->nullable();
             $table->boolean('important')->default(false);
             $table->boolean('has_live')->default(false);

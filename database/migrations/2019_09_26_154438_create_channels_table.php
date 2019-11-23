@@ -15,7 +15,7 @@ class CreateChannelsTable extends Migration
     {
         Schema::create('channels', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('event_id');
+            $table->bigInteger('event_id')->index();
             $table->string('title')->nullable();
             $table->string('url');
             $table->string('key');

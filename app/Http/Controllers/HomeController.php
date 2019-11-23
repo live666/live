@@ -30,7 +30,7 @@ class HomeController extends Controller
         $data['locales'] = Config::get('app.locales');
         $data['locale'] = $locale;
 
-        $competitions = Competition::whereIn('id', $homeCompetitionsId)->orderBy('sid')->get();
+        $competitions = Competition::whereIn('id', $homeCompetitionsId)->get();
         $data['competitions'] = $competitions;
         $all = Competition::whereIn('sport_id', [1])
                 ->whereNotNull('letter')
@@ -49,6 +49,7 @@ class HomeController extends Controller
                     ->get();
         $data['sports'] = $sports;
         $indexes = Index::with('event', 'event.competition', 'event.homeTeam', 'event.awayTeam')
+                    ->where('start_play', '>', Carbon::now()->subHours(2)->toDateTimeString())
                     ->with(['event.channels' => function($query){
                         $query->orderByRaw(DB::raw("FIELD(`key`, 'stream', 'streamNa', 'streamAmAli')"));
                     }])
@@ -66,7 +67,6 @@ class HomeController extends Controller
                         }
                     })
                     ->where('hide', false)
-                    ->where('start_play', '>', Carbon::now()->subHours(2)->toDateTimeString())
                     ->orderByRaw(DB::raw("DATE_FORMAT(`start_play`, '%Y-%m-%d')"))
                     ->orderBy('important','desc')
                     ->orderBy('start_play','asc')
