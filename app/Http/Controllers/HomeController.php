@@ -119,6 +119,9 @@ class HomeController extends Controller
             $ids = explode(',', $ids);
         }
         $indexes = Index::with('event')
+                    ->with(['event.channels' => function($query){
+                        $query->orderByRaw(DB::raw("FIELD(`key`, 'stream', 'streamNa', 'streamAmAli')"));
+                    }])
                     ->whereIn('id', $ids)
                     ->where('hide', false)
                     ->where('start_play', '>', Carbon::now()->subHours(2)->toDateTimeString())
