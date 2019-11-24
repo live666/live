@@ -18,7 +18,7 @@
                         </ul>
                     </div>
                     <div class="tools pt-md-2">
-                        <a class="navbar-brand d-md-none text-dark ml-1 mr-1" href="/"><img src="{{ config('app.logo_invert') }}"  style="height:30px;"/></a>
+                        <a class="navbar-brand d-md-none text-dark ml-1 mr-1" href="{{ route('home', [], false) }}"><img src="{{ config('app.logo_invert') }}"  style="height:30px;"/></a>
                         <div class="btn-group">
                             <div class="dropdown ">
                                 <button class="btn btn-light btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -190,8 +190,8 @@
                     </div>
                     <div class="col-md-3 col-12 m-auto text-md-left">
                         [^[for channels]]
-                            <a href="/event/[[:#parent.parent.data.id]]?c=[[:id]]" target="_blank" class="btn [[if #parent.parent.data.status == 'Playing']] btn-outline-success [[else]] btn-outline-secondary [[/if]] btn-sm d-none d-md-inline-block"><span class="oi oi-play-circle" title="play-circle" aria-hidden="true"></span>&nbsp;&nbsp;[[:name]]</a>
-                            <a href="/event/[[:#parent.parent.data.id]]?c=[[:id]]" target="_blank" class="btn [[if #parent.parent.data.status == 'Playing']] btn-success [[else]] btn-secondary [[/if]] btn-sm d-md-none"><span class="oi oi-play-circle" title="play-circle" aria-hidden="true"></span>&nbsp;&nbsp;[[:name]]</a>
+                            <a href="{{ route('event', '', false) }}/[[:#parent.parent.data.id]]?c=[[:id]]" target="_blank" class="btn [[if #parent.parent.data.status == 'Playing']] btn-outline-success [[else]] btn-outline-secondary [[/if]] btn-sm d-none d-md-inline-block"><span class="oi oi-play-circle" title="play-circle" aria-hidden="true"></span>&nbsp;&nbsp;[[:name]]</a>
+                            <a href="{{ route('event', '', false) }}/[[:#parent.parent.data.id]]?c=[[:id]]" target="_blank" class="btn [[if #parent.parent.data.status == 'Playing']] btn-success [[else]] btn-secondary [[/if]] btn-sm d-md-none"><span class="oi oi-play-circle" title="play-circle" aria-hidden="true"></span>&nbsp;&nbsp;[[:name]]</a>
                         [[/for]]
                     </div>
                 </div>
