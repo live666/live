@@ -158,6 +158,7 @@
             var player = videojs('v-player', {
                     responsive: true,
                     autoplay: true,
+                    muted: true,
                     textTrackSettings: false,
                     liveui: false,
                     liveTracker: false,
