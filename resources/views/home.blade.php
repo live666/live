@@ -215,28 +215,43 @@
         $.views.tags("utcLocal", utcLocal);
 
         var eTemplate = $.templates("#eventTemplate");
-        var data = {!! json_encode($events) !!};
+        var items = {!! json_encode($events) !!};
         var events = [];
         var eIndex = [];
         var days = [];
         var dayCount = [];
-        var totalEvents = data.length;
-        for (var i = 0; i < data.length; i++){
-            d = new Date(data[i]['start_play']);
-            data[i].time = ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2);
-            data[i].day =  d.getFullYear() + "-" + ("0" + (d.getMonth()+1)).slice(-2)  + '-' + ("0" + d.getDate()).slice(-2);
-            if (dayCount[data[i].day]) {
-                dayCount[data[i].day] =  dayCount[data[i].day] + 1;
+        var totalEvents = items.length;
+        var importants = 0;
+        for (var i = 0; i < items.length; i++){
+            item = items[i];
+            if (item.important && item.status == 'Playing') {
+                items.splice(i, 1);
+                items.splice(importants, 0, item);
+                i++;
+                importants++;
+            }
+        }
+        
+        for (var i = 0; i < items.length; i++){
+            item = items[i];
+            d = new Date(item['start_play']);
+            item.time = ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2);
+            item.day =  d.getFullYear() + "-" + ("0" + (d.getMonth()+1)).slice(-2)  + '-' + ("0" + d.getDate()).slice(-2);
+            if (item.important && item.status == 'Playing') {
+                // continue;
             } else {
-                dayCount[data[i].day] =  + 1;
+                if (dayCount[item.day]) {
+                    dayCount[item.day] =  dayCount[item.day] + 1;
+                } else {
+                    dayCount[item.day] =  + 1;
+                }
+                if ($.inArray(item.day, days) < 0) {
+                    days[days.length] = item.day;
+                    events[events.length] = {'day': item.day,'isHide': false}
+                }
             }
-            if ($.inArray(data[i].day, days) < 0) {
-                days[days.length] = data[i].day;
-                events[events.length] = {'day': data[i].day,'isHide': false}
-            }
-            eIndex[data[i].id] = events.length;
-            events[events.length] = data[i];
-            
+            eIndex[item.id] = events.length;
+            events[events.length] = item;
         }
         var app = {
                 e: events,
@@ -275,7 +290,7 @@
                         }
                 }
                 $.observable(event).setProperty("isHide", is_hide);
-                if (!is_hide) {
+                if (!is_hide && !(event['important'] && event['status'] == 'Playing')) {
                     totalEvents = totalEvents + 1;
                     if (dayCount[event.day]) {
                         dayCount[event.day] =  dayCount[event.day] + 1;

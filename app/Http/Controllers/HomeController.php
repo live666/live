@@ -67,9 +67,8 @@ class HomeController extends Controller
                         }
                     })
                     ->where('hide', false)
-                    ->orderByRaw(DB::raw("DATE_FORMAT(DATE_ADD(`start_play`,interval 8 hour), '%Y-%m-%d')"))
-                    ->orderBy('important','desc')
                     ->orderBy('start_play','asc')
+                    ->orderBy('important','desc')
                     ->get();
         if ($indexes) {
             $events = [];
