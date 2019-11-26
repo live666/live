@@ -66,6 +66,7 @@ class SportDataService
         if ($json->code== 0) {
             return $json->data;
         }
+        Log::error(['token' => $token, 'reponse' => $json]);
         return null;
     }
 

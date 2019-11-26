@@ -55,6 +55,7 @@ class SportSync extends Command
             Log::info('Sync data: '.$days.' Days');
             $data = $service->requestEpgs($token, null, Carbon::now()->addDays(intval($days))->toDateString());
             if (!$data) {
+                Cache::forget('api_token');
                 return;
             }
             foreach($data as $item) {
