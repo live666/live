@@ -50,6 +50,7 @@ class HomeController extends Controller
         $data['sports'] = $sports;
         $indexes = Index::with('event', 'event.competition', 'event.homeTeam', 'event.awayTeam')
                     ->where('start_play', '>', Carbon::now()->subHours(2)->toDateTimeString())
+                    ->whereIn('sport_id', $homeSportsId)
                     ->with(['event.channels' => function($query){
                         $query->orderByRaw(DB::raw("FIELD(`key`, 'stream', 'streamNa', 'streamAmAli')"));
                     }])
