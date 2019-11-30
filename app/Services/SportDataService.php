@@ -168,6 +168,10 @@ class SportDataService
             if (count($i18n)) {
                 $team->name_i18n = $i18n;
             }
+        } else {
+            if ($item['logo'] != $team->logo) {
+                $team->logo = $item['logo'];
+            }
         }
         $team->save();
         return $team;
